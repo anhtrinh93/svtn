@@ -40,6 +40,29 @@
                 @endforeach
             </div>
         </div>
+        <div class="col-lg-12">
+            <div id="bangdiem" data-id="{{$sinhvien->id}}"">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <button>Duyệt tốt nghiệp</button>
+            <button>Không đủ điều kiện tốt nghiệp</button>
+        </div>
     </div>
     <!-- /.row -->
 </div>
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url:'{{asset("api/sinhvien/getdiem")}}',
+            type:'GET',
+            data:{id:$('#bangdiem').attr('data-id')},
+            success:function (data) {
+                $('#bangdiem').html(data);
+            }
+        })
+
+    });
+</script>

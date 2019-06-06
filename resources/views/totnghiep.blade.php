@@ -48,7 +48,6 @@
                 <td>{{$sv->totnghiep_status}}</td>
                 <td>
                     <a class="btn btn-success view"  data-id="{{$sv->id}}">View</a>
-                    <a class="btn btn-default bangdiem"  data-id="{{$sv->id}}">Bảng điểm</a>
                     <button class="btn btn-danger delete" data-id="{{$sv->id}}"><i class="fa fa-trash"></i></button></td>
             </tr>
             @endforeach

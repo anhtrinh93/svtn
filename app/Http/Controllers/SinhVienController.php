@@ -219,12 +219,7 @@ class SinhVienController extends Controller
 //    }
     public function getdiem(Request $request){
         $sinhvien=SinhVien::find($request->id);
-        $bangdiem = BangDiem::all();
-        //echo '<pre>';
-        //var_dump($bangdiem);
-        //exit();
-        //$tongtinchi=$sinhvien->bangdiem->where('pivot.diemtk','>=','5')->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('sotinchi');
-        //$diemtb=$sinhvien->bangdiem->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('pivot.diemtk')/count($sinhvien->bangdiem);
+        $bangdiem = BangDiem::where("id_sv",'=',$request->id)->get();
         return view('sinhvien-bangdiem',compact('sinhvien', 'bangdiem'));
     }
 
