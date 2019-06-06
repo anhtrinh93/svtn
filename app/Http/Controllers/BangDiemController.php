@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\BangDiem;
+use App\ChuyenNganh;
 use App\Http\Resources\BangDiem as BDResource;
+use App\Khoa;
 use App\MonHoc;
 use App\SinhVien;
 use Illuminate\Http\Request;
@@ -29,7 +31,9 @@ class BangDiemController extends Controller
      */
     public function create()
     {
-        return view('chuyennganh-add',compact('khoa'));
+        $monhoc=MonHoc::all();
+        $sinhvien=SinhVien::all();
+        return view('bangdiem-add',compact('monhoc', 'sinhvien'));
     }
 
 
@@ -58,6 +62,14 @@ class BangDiemController extends Controller
      */
     public function store(Request $request)
     {
+        $bangdiem= new BangDiem();
+        $bangdiem->id_sv= (SinhVien::select('id')->where('masv','=',$request['id_Sv'])->first())->id;
+        $bangdiem->id_mh= (MonHoc::select('id')->where('mamon','=',$request['id_mh'])->first())->id;
+        $bangdiem->diemtk=$request['diemtk'];
+        $bangdiem->save();
+        return response([
+            'success'=>'Bạn đã update thành công'
+        ]);
         return response([
             'success'=>'Bạn thêm mới thành công'
         ]);
@@ -82,7 +94,10 @@ class BangDiemController extends Controller
      */
     public function edit($id)
     {
-        return view('chuyennganh-edit',compact('chuyennganh','khoa'));
+        $bangdiem=BangDiem::find($id);
+        $monhoc=MonHoc::all();
+        $sinhvien=SinhVien::all();
+        return view('bangdiem-edit',compact('bangdiem','monhoc', 'sinhvien'));
     }
 
     /**
@@ -94,7 +109,11 @@ class BangDiemController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $bangdiem= BangDiem::find($id);
+        $bangdiem->id_sv= (SinhVien::select('id')->where('masv','=',$request['id_Sv'])->first())->id;
+        $bangdiem->id_mh= (MonHoc::select('id')->where('mamon','=',$request['id_mh'])->first())->id;
+        $bangdiem->diemtk=$request['diemtk'];
+        $bangdiem->save();
         return response([
             'success'=>'Bạn đã update thành công'
         ]);

@@ -8,8 +8,6 @@
                 </h1>
             </div>
             <div class="col-lg-7" style="padding-bottom:120px">
-                <div class=" errors alert alert-danger" style="display: none" ></div>
-
                 <form id="sinhvienadd" method="POST">
                     <div class="form-group">
                         <label>Mã Sinh viên</label>
@@ -34,6 +32,7 @@
                     <div class="form-group">
                         <label>Chọn khóa học</label>
                         <select name="khoa_id"  class="form-control">
+                            <option value="">Chọn Khóa học</option>
                             @foreach($khoa as $k)
                                 <option value="{{$k->id}}">{{$k->tenkhoa}}</option>
                             @endforeach
@@ -42,6 +41,7 @@
                     <div class="form-group">
                         <label>Chọn Chuyên Ngành</label>
                         <select name="cn_id"  class="form-control">
+                            <option value="">Chọn Chuyên ngành</option>
                             @foreach($chuyennganh as $cn)
                             <option value="{{$cn->id}}">{{$cn->tencn}}</option>
                             @endforeach
@@ -81,26 +81,23 @@
                     },
                     statusCode: {
                         422: function(data) {
-                            var errors=[]
-                            $.each(data.responseJSON.errors.macn,function (index,value) {
-                                errors.push(value);
+                            var errors= data.responseJSON.errors;
+                            $.each( errors, function( key, value ) {
+                                var element_form = $('[name="'+ key +'"]').parents(".form-group");
+                                if (value.length >0){
+                                    element_form.addClass(' show-error');
+                                    var html='<div class="error">';
+                                    $.each(value,function (index,value) {
+                                        html+='<p>'+value;
+                                        html+='</p>';
+                                    });
+                                    html+='</div>';
+                                    element_form.append(html);
+                                }else{
+                                    element_form.removeClass(' show-error').addClass(' hide-error')
+                                }
+                            });
 
-                            })
-                            $.each(data.responseJSON.errors.tencn,function (index,value) {
-                                errors.push(value);
-
-                            })
-                            if (errors.length >0){
-                                $('.errors').addClass('show')
-                                var html='';
-                                $.each(errors,function (index,value) {
-                                    html+='<li>'+value;
-                                    html+='</li>';
-                                });
-                                $('.errors').html(html);
-                            }else{
-                                $('.errors').addClass('hide')
-                            }
                         }
                     }
 

@@ -26,7 +26,15 @@ Route::group(['prefix'=>'sinhvien'],function (){
     Route::get('/','SinhVienController@index');
     Route::post('/add','SinhVienController@store');
     Route::put('/update/{id}','SinhVienController@update');
+    Route::get('/getdiem','SinhVienController@getdiem');
     Route::delete('/delete/{id}','SinhVienController@destroy');
+});
+Route::group(['prefix'=>'totnghiep'],function (){
+    Route::get('/','TotNghiepController@index');
+    Route::post('/add','TotNghiepController@store');
+    Route::get('/sinhvien-view/{id}','TotNghiepController@getsinhvienview');
+    Route::put('/update/{id}','TotNghiepController@update');
+    Route::delete('/delete/{id}','TotNghiepController@destroy');
 });
 Route::group(['prefix'=>'chuyennganh'],function (){
     Route::get('/','ChuyenNganhController@index');

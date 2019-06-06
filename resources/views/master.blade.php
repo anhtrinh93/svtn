@@ -115,6 +115,9 @@
                         <a href="#"><i class="fa fa-cube fa-fw"></i>Quản lý Chương trình học<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
+                                <a href={{url('/cthoc')}}>Chương trình học </a>
+                            </li>
+                            <li>
                                 <a href={{url('/khoa')}}>Khoa </a>
                             </li>
                             <li>
@@ -133,10 +136,13 @@
                         <a href="#"><i class="fa fa-cube fa-fw"></i>Quản lý Dữ liệu Xét tốt nghiệp<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href={{url('/')}}>Thông tin đợt tốt nghiệp </a>
+                                <a href={{url('/totnghiep?status=regist')}}>Danh sách đăng ký xét tốt nghiệp </a>
                             </li>
                             <li>
-                                <a href={{url('/sinhvien')}}>Danh sách đăng ký xét tốt nghiệp </a>
+                                <a href={{url('/totnghiep?status=success')}}>Danh sách đã tốt nghiệp </a>
+                            </li>
+                            <li>
+                                <a href={{url('/totnghiep?status=cancel')}}>Danh sách không đủ điều kiện tốt nghiệp </a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->

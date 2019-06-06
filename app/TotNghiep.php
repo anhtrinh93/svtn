@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SinhVien extends Model
+class TotNghiep extends Model
 {
     protected $table='sinhvien';
     protected $guarded=[];
@@ -13,9 +13,5 @@ class SinhVien extends Model
     }
     public function chuyennganh(){
         return $this->belongsTo('App\ChuyenNganh','cn_id','id');
-    }
-
-    public function bangdiem(){
-        return $this->belongsToMany('App\BangDiem','bangdiem','kh_cn_id','mh_id')->withPivot('id');
     }
 }

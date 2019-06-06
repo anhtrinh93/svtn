@@ -4,7 +4,7 @@
     <th>Tín chỉ</th>
     <th>Hệ số</th>
     <th>Trạng thái</th>
-    @foreach($kh_cn->monhoc as $mh)
+    @foreach($cthoc->monhoc as $mh)
         <tr>
             <td>{{$mh->mamon}}</td>
             <td style="text-align: left">{{$mh->tenmon}}</td>

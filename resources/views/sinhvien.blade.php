@@ -69,9 +69,10 @@
                         <td>{{$sv->khoahoc->tenkhoa}}</td>
                         <td>{{$sv->chuyennganh->tencn}}</td>
                         <td>{{$sv->lophoc}}</td>
-                        <td>{{$sv->trangthai}}</td>
+                        <td>{{$sv->totnghiep_status}}</td>
                         <td>
                             <a class="btn btn-success"  href={{url('/sinhvien/view/'.$sv->id)}}>View</a>
+                            <a class="btn btn-success bangdiem"  data-id="{{$sv->id}}">Bảng điểm</a>
                             <a class="btn btn-primary"  href={{url('/sinhvien/edit/'.$sv->id)}}>Edit</a>
                             <button class="btn btn-danger delete" data-id="{{$sv->id}}"><i class="fa fa-trash"></i></button></td>
                     </tr>
@@ -82,11 +83,44 @@
         <!-- /.row -->
     </div>
     <!-- /.container-fluid -->
+<!-- Modal -->
+<div class="modal fade" id="bangdiemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div id="bangdiem">
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
     <script>
         $(document).ready(function () {
+            $('.bangdiem').click(function () {
+                $('#bangdiemModal').modal('show');
+                $('.modal-title').text($(this).attr('Bảng diểm sinh viên'));
+                $.ajax({
+                    url:'{{asset("api/sinhvien/getdiem")}}',
+                    type:'GET',
+                    data:{id:$(this).attr('data-id')},
+                    success:function (data) {
+                        $('#bangdiem').html(data);
+                    }
+                })
+            })
             $('.delete').click(function () {
                 if (confirm('Bạn muốn xóa?')){
                     $.ajax({

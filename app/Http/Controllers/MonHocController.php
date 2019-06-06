@@ -68,13 +68,6 @@ class MonHocController extends Controller
         $data=Excel::load($path)->get();
         foreach ($data->toArray() as $value){
             $monhoc= new MonHoc();
-            $this->validate($monhoc,[
-                'mamon'=>'required|min:2|max:10|unique:monhoc,mamon',
-                'tenmon'=>'required|min:2|max:100|unique:monhoc,tenmon',
-                'tinchi'=>'required|numeric',
-                'heso'=>'required|numeric',
-            ]);
-
             $monhoc->mamon=$value['ma_hoc_phan'];
             $monhoc->tenmon=$value['ten_hoc_phan'];
             $monhoc->tinchi=$value['so_tin_chi'];
@@ -82,7 +75,6 @@ class MonHocController extends Controller
             $monhoc->save();
         }
         return back();
-
     }
 
     /**

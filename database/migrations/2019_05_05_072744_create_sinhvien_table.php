@@ -23,6 +23,7 @@ class CreateSinhvienTable extends Migration
             $table->integer('cn_id')->unsigned();
             $table->foreign('cn_id')->references('id')->on('chuyennganh')->onDelete('CASCADE');
             $table->string('lophoc');
+            $table->integer('totnghiep_status');
             $table->timestamps();
         });
     }

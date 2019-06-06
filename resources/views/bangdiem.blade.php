@@ -10,7 +10,7 @@
                 <div class="row " style="margin-bottom: 10px;">
                     <div class="col-md-10">Bảng Điểm <small>List</small></div>
                     <div class="col-md-2">
-                        <a href="{{asset('bangdiem/add')}}" class="btn btn-success">Thêm mới</a>
+<!--                        <a href="{{asset('bangdiem/add')}}" class="btn btn-success">Thêm mới</a>-->
                     </div>
                 </div>
             </h1>
@@ -77,7 +77,7 @@
                 { data: 'tenmon' },
                 { data: 'diemtk' },
                 { data: 'action',"render":function (data,type,row) {
-                        return '<a class="btn btn-primary" href="{{asset('/bangdiem/edit')}}/'+row.id+'"><i class="fa fa-pencil fa-fw"></i></a>&ensp;<button class="btn btn-danger delete" data-id="'+row.id+'"><i class="fa fa-trash-o  fa-fw"></i></button>';
+                        return '<button class="btn btn-danger delete" data-id="'+row.id+'"><i class="fa fa-trash-o  fa-fw"></i></button>';
                     } }
             ]
         });

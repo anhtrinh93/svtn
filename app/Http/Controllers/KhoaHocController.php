@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ChuyenNganh;
-use App\KH_CN;
+use App\CTHoc;
 use App\KhoaHoc;
 use App\MonHoc;
 use Illuminate\Http\Request;
@@ -116,8 +116,8 @@ class KhoaHocController extends Controller
         return view('ctrinhhoc',compact('khoahoc','monhoc'));
     }
     public function monhoc(Request $request){
-        $kh_cn=KH_CN::find($request->id);
+        $cthoc=CTHoc::find($request->id);
 
-        return $kh_cn;
+        return $cthoc;
     }
 }

@@ -11,7 +11,8 @@
                 </h1>
             </div>
             <div class="row " style="margin-bottom: 10px;">
-                <div class="col-md-10"></div>
+                <div class="col-md-10">
+                </div>
                 <div class="col-md-2">
                     <a href="{{asset('cthoc/add')}}" class="btn btn-success">Thêm mới</a>
                 </div>
@@ -26,11 +27,11 @@
                 </tr>
                 </thead>
                 <tbody id="data">
-                    @foreach($kh_cn as $value)
+                    @foreach($cthoc as $value)
                         <tr>
                             <td>{{$value->khoa->tenkhoa}}</td>
                             <td>{{$value->chuyennganh->tencn}}</td>
-                            <td><button class="btn btn-primary monhoc" data-id="{{$value->id}}" data-tk="{{$value->khoa->tenkhoa}}" data-cn="{{$value->chuyennganh->tencn}}">Môn Học</button>&nbsp;<a href="{{asset('cthoc/edit/'.$value->id)}}" class="btn btn-warning"><i class="fa fa-pencil fa-fw"></i></a></td>
+                            <td><button class="btn btn-primary monhoc" data-id="{{$value->id}}" data-tk="{{$value->khoa->tenkhoa}}" data-cn="{{$value->chuyennganh->tencn}}">Môn Học</button>&nbsp;<a href="{{asset('cthoc/edit/'.$value->id)}}" class="btn btn-warning"><i class="fa fa-pencil fa-fw"></i></a> <button class="btn btn-danger delete"  data-id="{{$value->id}}"><i class="fa  fa-trash-o fa-fw"></i></button></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -76,29 +77,10 @@
                     }
                 })
             })
-            {{--var table=$('#dataTables-example').DataTable({--}}
-                {{--"columnDefs": [--}}
-                    {{--{"className": "dt-center", "targets": "_all"}--}}
-                {{--],--}}
-                {{--responsive: true,--}}
-                {{--ajax:{--}}
-                    {{--url:'{{asset("api/chuyennganh")}}',--}}
-                    {{--type:'GET',--}}
-                    {{--dataType:'json',--}}
-                {{--},--}}
-                {{--columns: [--}}
-                    {{--{ data: 'macn' },--}}
-                    {{--{ data: 'tencn' },--}}
-                    {{--{ data: 'tenkhoa' },--}}
-                    {{--{ data: 'action',"render":function (data,type,row) {--}}
-                            {{--return '<a class="btn btn-primary" href="{{asset('/chuyennganh/edit')}}/'+row.id+'"><i class="fa fa-pencil fa-fw"></i></a>&ensp;<button class="btn btn-danger delete" data-id="'+row.id+'"><i class="fa fa-trash-o  fa-fw"></i></button>';--}}
-                        {{--} }--}}
-                {{--]--}}
-            {{--});--}}
             $(document).on('click','.delete',function () {
                 if (confirm('Nếu bạn xóa thì các bảng có kết nối sẽ bị xóa? Bạn có muốn xóa ?')){
                     $.ajax({
-                        url:  '{{asset("api/chuyennganh/delete")}}' +'/' +$(this).attr('data-id'),
+                        url:  '{{asset("api/cthoc/delete")}}' +'/' +$(this).attr('data-id'),
                         type: 'post',
                         dataType: 'json',
                         headers: {"X-HTTP-Method-Override": "DELETE"},

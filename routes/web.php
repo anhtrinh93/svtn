@@ -49,6 +49,12 @@ Route::group(['prefix'=>'/'],function (){
         route::get('/edit/{id}','SinhvienController@edit');
         route::post('/import','SinhVienController@import');
     });
+    Route::group(['prefix'=>'totnghiep'],function (){
+        route::get('/','TotnghiepController@index');
+        route::get('/view/{id}','TotnghiepController@getview');
+        route::get('/add','TotnghiepController@create');
+        route::get('/edit/{id}','TotnghiepController@edit');
+    });
     Route::group(['prefix'=>'bangdiem'],function (){
         route::get('/','BangdiemController@getview');
         route::get('/add','BangdiemController@create');

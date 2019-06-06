@@ -3,61 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\ChuyenNganh;
-use App\CTHoc;
 use App\KhoaHoc;
 use App\SinhVien;
 use App\MonHoc;
-use App\BangDiem;
 use Illuminate\Http\Request;
 use Excel;
 use DB;
 
-class SinhVienController extends Controller
+class TotNghiepController extends Controller
 {
-    public function index(){
-        $sinhvien=SinhVien::all();
-        return view('sinhvien',compact('sinhvien'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function import(Request $request){
-        $this->validate($request,[
-            'file'=>'required|mimes:xls,xlsx'
-        ]);
-        $path=$request->file('file')->getRealPath();
-
-        $data=Excel::load($path)->get();
-        foreach ($data->toArray() as $value){
-            $sinhvien= new SinhVien();
-            $sinhvien->masv=$value['masv'];
-            $sinhvien->hoten=$value['hoten'];
-            $sinhvien->ngaysinh=date('Y-m-d',strtotime($value['ngaysinh']));
-            $sinhvien->lophoc=$value['lopcn'];
-            $sinhvien->totnghiep_status=0;
-
-            if (isset($value['khoa'])) {
-                $khoahoc = KhoaHoc::select('id')->where('tenkhoa','=',$value['khoa'])->first();
-                $sinhvien->kh_id= $khoahoc ? $khoahoc->id : 0;
-            }
-            if (isset($value['cn_hien_tai'])) {
-                $chuyennganh = ChuyenNganh::select('id')->where('tencn','=',$value['cn_hien_tai'])->first();
-                $sinhvien->cn_id= $chuyennganh ? $chuyennganh->id : 0;
-            }
-            $sinhvien->save();
+    public function index(Request $request){
+        $totnghiep_status = $request->input('status');
+        $condition = 0;
+        if ($totnghiep_status == 'regist') {
+            $condition = 1;
+        } elseif ($totnghiep_status == 'success') {
+            $condition = 2;
+        }elseif ($totnghiep_status == 'cancel') {
+            $condition = 3;
         }
-        return back();
-
+        else {
+            $condition = 0;
+        }
+        $sinhvien=SinhVien::where("totnghiep_status",'=',$condition)->get();
+        return view('totnghiep',compact('sinhvien'));
     }
     public function create()
     {
         $khoa=KhoaHoc::all();
         $chuyennganh=ChuyenNganh::all();
         $monhoc=MonHoc::all();
-        return view('sinhvien-add',compact('khoa','chuyennganh','monhoc'));
+        return view('totnghiep',compact('khoa','chuyennganh','monhoc'));
+    }
+    public function getsinhvienview($id){
+        $sinhvien=SinhVien::find($id);
+        $khoa=KhoaHoc::all();
+        $chuyennganh=ChuyenNganh::all();
+        $monhoc=MonHoc::all();
+        return view('totnghiep-sinhvien',compact('sinhvien','khoa','chuyennganh','monhoc'));
     }
 
     /**
@@ -84,7 +67,6 @@ class SinhVienController extends Controller
         $sinhvien->kh_id=$request->khoa_id;
         $sinhvien->cn_id=$request->cn_id;
         $sinhvien->lophoc=$request->lophoc;
-        $sinhvien->totnghiep_status=0;
         $sinhvien->save();
         //if ($request->check=="on"){
         //    if ($request->mh_id){
@@ -137,7 +119,7 @@ class SinhVienController extends Controller
         $khoa=KhoaHoc::all();
         $chuyennganh=ChuyenNganh::all();
         $monhoc=MonHoc::all();
-        return view('sinhvien-edit',compact('sinhvien','khoa','chuyennganh','monhoc'));
+        return view('totnghiep-edit',compact('sinhvien','khoa','chuyennganh','monhoc'));
     }
 
     /**
@@ -154,8 +136,7 @@ class SinhVienController extends Controller
             'khoa_id'=>'required|max:100',
             'cn_id'=>'required|max:100',
             'ngaysinh'=>'required',
-            'lophoc'=>'required|max:100',
-            'totnghiep_status'=>'min:0|max:5',
+            'lophoc'=>'required|max:100'
 
         ]);
         $sinhvien=SinhVien::find($id);
@@ -190,7 +171,7 @@ class SinhVienController extends Controller
         $khoa=KhoaHoc::all();
         $chuyennganh=ChuyenNganh::all();
         $monhoc=MonHoc::all();
-        return view('sinhvien-view',compact('sinhvien','khoa','chuyennganh','monhoc'));
+        return view('totnghiep-view',compact('sinhvien','khoa','chuyennganh','monhoc'));
     }
 
 
@@ -217,40 +198,4 @@ class SinhVienController extends Controller
 //
 //
 //    }
-    public function getdiem(Request $request){
-        $sinhvien=SinhVien::find($request->id);
-        $bangdiem = BangDiem::all();
-        //echo '<pre>';
-        //var_dump($bangdiem);
-        //exit();
-        //$tongtinchi=$sinhvien->bangdiem->where('pivot.diemtk','>=','5')->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('sotinchi');
-        //$diemtb=$sinhvien->bangdiem->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('pivot.diemtk')/count($sinhvien->bangdiem);
-        return view('sinhvien-bangdiem',compact('sinhvien', 'bangdiem'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     *
-     * list totnghiep_status:
-     *  0: studying
-     *  1: considering_graduation
-     *  2: graduated
-     *  3: not_eligible_for_graduation
-     *  4: orther
-     */
-    public function update_graduating_status(Request $request, $id)
-    {
-        $this->validate($request,[
-            'graduating_status'=>'required|min:0|max:5',
-        ]);
-        $sinhvien=SinhVien::find($id);
-        $sinhvien->graduating_status=$request->totnghiep_status;
-        $sinhvien->save();
-        return response([
-            'success'=>'Bạn đã update thành công'
-        ]);
-    }
 }

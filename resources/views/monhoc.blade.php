@@ -16,20 +16,20 @@
                     <div class="row " style="margin-bottom: 10px;">
                         <div class="col-md-6">Môn học <small>List</small></div>
                         <div class="col-md-4 import-box">
-                            <form action="{{asset('monhoc/import')}}" method="POST" id="importsv" enctype="multipart/form-data">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            <input type="file" name="file" >
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <button type="submit" class="btn btn-success">Import</button>
-                                    </div>
-                                </div>
-
-                                {{csrf_field()}}
-                            </form>
+<!--                            <form action="{{asset('monhoc/import')}}" method="POST" id="importsv" enctype="multipart/form-data">-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col-md-8">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <input type="file" name="file" >-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-4">-->
+<!--                                        <button type="submit" class="btn btn-success">Import</button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!---->
+<!--                                {{csrf_field()}}-->
+<!--                            </form>-->
                         </div>
                         <div class="col-md-2">
                             <a href="{{asset('monhoc/add')}}" class="btn btn-success">Thêm mới</a>

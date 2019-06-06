@@ -31,7 +31,7 @@
                         @foreach($monhoc as $mh)
                             <div class="col-md-4">
                                 <input type="checkbox"  class="mh_id" value="{{$mh->id}}">{{$mh->tenmon}}
-                                <input type="text" class="form-inline " id="status-{{$mh->id}}" value=""    style="float: right;width: 20%;margin-bottom: 10px;">
+                                <input type="text" class="form-inline " id="status-{{$mh->id}}" value=""style="float: right;width: 20%;margin-bottom: 10px;">
                             </div>
 
                         @endforeach

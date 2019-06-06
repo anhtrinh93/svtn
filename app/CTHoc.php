@@ -4,18 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SinhVien extends Model
+class CTHoc extends Model
 {
-    protected $table='sinhvien';
+    protected $table='kh_cn';
     protected $guarded=[];
-    public function khoahoc(){
+    public function monhoc(){
+        return $this->belongsToMany('App\MonHoc','kh_cn_mh','kh_cn_id','mh_id')->withPivot('status');
+    }
+    public function khoa(){
         return $this->belongsTo('App\KhoaHoc','kh_id','id');
     }
     public function chuyennganh(){
         return $this->belongsTo('App\ChuyenNganh','cn_id','id');
-    }
-
-    public function bangdiem(){
-        return $this->belongsToMany('App\BangDiem','bangdiem','kh_cn_id','mh_id')->withPivot('id');
     }
 }

@@ -20,7 +20,6 @@
             <table class="table table-striped table-bordered table-hover" id="khoatable">
                 <thead>
                 <tr align="center">
-                    <th>ID</th>
                     <th>Tên Khoa</th>
                     <th>Hành động</th>
                 </tr>
@@ -49,7 +48,6 @@
                     dataType:'json',
                 },
                 columns: [
-                    { data: 'id' },
                     { data: 'tenkhoa' },
                     { data: 'action',"render":function (data,type,row) {
                             return '<a class="btn btn-primary" href="{{asset('/khoa/edit')}}/'+row.id+'"><i class="fa fa-pencil fa-fw"></i></a>&ensp;<button class="btn btn-danger delete" data-id="'+row.id+'"><i class="fa fa-trash-o  fa-fw"></i></button>';
@@ -66,16 +64,7 @@
                         success:function (data) {
                             alert(data.success);
                             table.ajax.reload();
-                        },
-                        // headers: {
-                        //
-                        //     "Content-Type": "application/json"
-                        // },
-
-
-
-
-
+                        }
                     })
                 }
             })
