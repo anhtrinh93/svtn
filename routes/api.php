@@ -27,6 +27,7 @@ Route::group(['prefix'=>'sinhvien'],function (){
     Route::post('/add','SinhVienController@store');
     Route::put('/update/{id}','SinhVienController@update');
     Route::get('/getdiem','SinhVienController@getdiem');
+    Route::put('/update_status/{id}','SinhVienController@update_graduating_status');
     Route::delete('/delete/{id}','SinhVienController@destroy');
 });
 Route::group(['prefix'=>'totnghiep'],function (){
@@ -34,7 +35,7 @@ Route::group(['prefix'=>'totnghiep'],function (){
     Route::post('/add','TotNghiepController@store');
     Route::get('/sinhvien-view/{id}','TotNghiepController@getsinhvienview');
     Route::put('/update/{id}','TotNghiepController@update');
-    Route::delete('/delete/{id}','TotNghiepController@destroy');
+    Route::put('/delete/{id}','TotNghiepController@delete');
 });
 Route::group(['prefix'=>'chuyennganh'],function (){
     Route::get('/','ChuyenNganhController@index');

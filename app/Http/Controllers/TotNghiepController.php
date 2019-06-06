@@ -14,7 +14,6 @@ class TotNghiepController extends Controller
 {
     public function index(Request $request){
         $totnghiep_status = $request->input('status');
-        $condition = 0;
         if ($totnghiep_status == 'regist') {
             $condition = 1;
         } elseif ($totnghiep_status == 'success') {
@@ -26,14 +25,13 @@ class TotNghiepController extends Controller
             $condition = 0;
         }
         $sinhvien=SinhVien::where("totnghiep_status",'=',$condition)->get();
+
         return view('totnghiep',compact('sinhvien'));
     }
     public function create()
     {
-        $khoa=KhoaHoc::all();
-        $chuyennganh=ChuyenNganh::all();
-        $monhoc=MonHoc::all();
-        return view('totnghiep',compact('khoa','chuyennganh','monhoc'));
+        $sinhvien=SinhVien::all();
+        return view('totnghiep-add',compact('sinhvien'));
     }
     public function getsinhvienview($id){
         $sinhvien=SinhVien::find($id);
@@ -68,27 +66,6 @@ class TotNghiepController extends Controller
         $sinhvien->cn_id=$request->cn_id;
         $sinhvien->lophoc=$request->lophoc;
         $sinhvien->save();
-        //if ($request->check=="on"){
-        //    if ($request->mh_id){
-        //        foreach ($request->mh_id as $idmh){
-        //            $so=rand(50,100)/10;
-        //            $monhoc=MonHoc::find($idmh);
-        //            $sinhvien->bangdiem()->attach($monhoc,array('diemtk'=>$so));
-        //        }
-        //    }
-        //}else{
-        //    if ($request->mh_id){
-        //        foreach ($request->mh_id as $idmh){
-        //            $so=rand(30,100)/10;
-        //            if ($so >=4.6 && $so<5){
-        //                $so= 5;
-        //            }
-        //            $monhoc=MonHoc::find($idmh);
-        //            $sinhvien->bangdiem()->attach($monhoc,array('diemtk'=>$so));
-        //        }
-        //    }
-        //}
-
 
         return response([
             'success'=>'Bạn thêm mới thành công'
@@ -158,9 +135,11 @@ class TotNghiepController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        SinhVien::destroy($id);
+        $sinhvien=SinhVien::find($id);
+        $sinhvien->totnghiep_status=0;
+        $sinhvien->save();
         return response([
             'success'=>'Bạn đã delete thành công'
         ]);
@@ -175,27 +154,4 @@ class TotNghiepController extends Controller
     }
 
 
-//    public function tracuusv(Request $request){
-//        $sinhvien=SinhVien::where($request->column,'=',$request->tukhoa)->first();
-//        if (empty($sinhvien)){
-//            return 'Không tìm thấy sinh viên có mã này';
-//        }else{
-//            if ($sinhvien->bangdiem->isEmpty()){
-//                $b=[];
-//                $c=[];
-//                return view('data-searchsv',compact('sinhvien','b','c'));
-//            }else{
-//                $a=$sinhvien->bangdiem->chunk(round(count($sinhvien->bangdiem)/2));
-//                $b=$a[0];
-//                $c=$a[1];
-//                $tongtinchi=$sinhvien->bangdiem->where('pivot.diemtk','>=','5')->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('sotinchi');
-//                $diemtb=$sinhvien->bangdiem->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('pivot.diemtk')/count($sinhvien->bangdiem);
-//
-//                return view('data-searchsv',compact('sinhvien','b','c','tongtinchi','diemtb'));
-//            }
-//
-//        }
-//
-//
-//    }
 }

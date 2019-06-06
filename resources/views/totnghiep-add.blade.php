@@ -3,31 +3,21 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Chuyên Ngành
+                <h1 class="page-header">Đề nghị xét tốt nghiệp
                     <small>Thêm mới</small>
                 </h1>
             </div>
             <div class="col-lg-7" style="padding-bottom:120px">
                 <div class=" errors alert alert-danger" style="display: none" ></div>
 
-                <form id="chuyennganhadd" method="POST">
+                <form id="totnghiepadd" method="POST">
                     <div class="form-group">
-                        <label>Mã Chuyên Ngành</label>
+                        <label>Mã Sinh viên</label>
                         <input class="form-control" name="macn"  placeholder="Nhập Mã" />
-
+                        <button class="btn btn-default" style="margin-top: 10px" id="timSinhVien">Tìm sinh viên</button>
                     </div>
-                    <div class="form-group">
-                        <label>Tên Chuyên Ngành</label>
-                        <input class="form-control" name="tencn"  placeholder="Nhập tên Chuyên ngành" />
+                    <div class="form-group" id="sinhvieninfo">
 
-                    </div>
-                    <div class="form-group">
-                        <label>Chọn khoa</label>
-                        <select name="khoa_id"  class="form-control">
-                            @foreach($khoa as $k)
-                                <option value="{{$k->id}}">{{$k->tenkhoa}}</option>
-                            @endforeach
-                        </select>
                     </div>
                     <button type="submit" class="btn btn-success">Thêm mới</button>
                     <button type="reset" class="btn btn-default">Reset</button>
@@ -48,10 +38,20 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $(document).on('submit','#chuyennganhadd',function (e) {
+            $('#timSinhVien').click(function () {
+                $.ajax({
+                    url:'{{asset("api/totnghiep/sinhvien-view/")}}'+ '/'+2,
+                    type:'GET',
+                    // data:{id:$(this).attr('data-id')},
+                    success:function (data) {
+                        $('#sinhvieninfo').html(data);
+                    }
+                })
+            })
+            $(document).on('submit','#totnghiepadd',function (e) {
                 e.preventDefault();
                 $.ajax({
-                    url:'{{asset("api/chuyennganh/add")}}',
+                    url:'{{asset("api/totnghiep/add")}}',
                     type:'POST',
                     data:new FormData(this),
                     cache:false,
@@ -59,7 +59,7 @@
                     processData:false,
                     success:function (data) {
                         alert(data.success);
-                        window.location.href='{{asset("/chuyennganh")}}';
+                        window.location.href='{{asset("/totnghiep")}}';
                     },
                     statusCode: {
                         422: function(data) {

@@ -119,10 +119,10 @@
         $('.delete').click(function () {
             if (confirm('Bạn muốn xóa?')){
                 $.ajax({
-                    url:  '{{asset("api/sinhvien/delete")}}' +'/' +$(this).attr('data-id'),
+                    url:  '{{asset("api/totnghiep/delete")}}' +'/' +$(this).attr('data-id'),
                     type: 'post',
                     dataType: 'json',
-                    headers: {"X-HTTP-Method-Override": "DELETE"},
+                    headers: {"X-HTTP-Method-Override": "PUT"},
                     success:function (data) {
                         alert(data.success);
                         window.location.reload();

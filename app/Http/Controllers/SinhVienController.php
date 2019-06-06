@@ -203,37 +203,9 @@ class SinhVienController extends Controller
     }
 
 
-//    public function tracuusv(Request $request){
-//        $sinhvien=SinhVien::where($request->column,'=',$request->tukhoa)->first();
-//        if (empty($sinhvien)){
-//            return 'Không tìm thấy sinh viên có mã này';
-//        }else{
-//            if ($sinhvien->bangdiem->isEmpty()){
-//                $b=[];
-//                $c=[];
-//                return view('data-searchsv',compact('sinhvien','b','c'));
-//            }else{
-//                $a=$sinhvien->bangdiem->chunk(round(count($sinhvien->bangdiem)/2));
-//                $b=$a[0];
-//                $c=$a[1];
-//                $tongtinchi=$sinhvien->bangdiem->where('pivot.diemtk','>=','5')->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('sotinchi');
-//                $diemtb=$sinhvien->bangdiem->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('pivot.diemtk')/count($sinhvien->bangdiem);
-//
-//                return view('data-searchsv',compact('sinhvien','b','c','tongtinchi','diemtb'));
-//            }
-//
-//        }
-//
-//
-//    }
     public function getdiem(Request $request){
         $sinhvien=SinhVien::find($request->id);
-        $bangdiem = BangDiem::all();
-        //echo '<pre>';
-        //var_dump($bangdiem);
-        //exit();
-        //$tongtinchi=$sinhvien->bangdiem->where('pivot.diemtk','>=','5')->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('sotinchi');
-        //$diemtb=$sinhvien->bangdiem->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('pivot.diemtk')/count($sinhvien->bangdiem);
+        $bangdiem = BangDiem::where('id_sv', '=',$request->id)->get();
         return view('sinhvien-bangdiem',compact('sinhvien', 'bangdiem'));
     }
 
@@ -250,13 +222,13 @@ class SinhVienController extends Controller
      *  3: not_eligible_for_graduation
      *  4: orther
      */
-    public function update_graduating_status(Request $request, $id)
+    public function update_graduating_status(Request $request)
     {
         $this->validate($request,[
-            'graduating_status'=>'required|min:0|max:5',
+            'totnghiep_status'=>'required|min:0|max:5',
         ]);
-        $sinhvien=SinhVien::find($id);
-        $sinhvien->graduating_status=$request->totnghiep_status;
+        $sinhvien=SinhVien::find($request->id);
+        $sinhvien->totnghiep_status=$request->totnghiep_status;
         $sinhvien->save();
         return response([
             'success'=>'Bạn đã update thành công'

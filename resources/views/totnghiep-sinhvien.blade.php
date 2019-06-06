@@ -48,8 +48,8 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <button class="btn btn-success" data-id="{{$sinhvien->id}}">Duyệt tốt nghiệp</button>
-            <button class="btn btn-danger" data-id="{{$sinhvien->id}}">Không đủ điều kiện tốt nghiệp</button>
+            <button class="btn btn-success update-graduated" data-id="{{$sinhvien->id}}">Duyệt tốt nghiệp</button>
+            <button class="btn btn-danger update-non-graduated" data-id="{{$sinhvien->id}}">Không đủ điều kiện tốt nghiệp</button>
         </div>
     </div>
     <!-- /.row -->
@@ -65,5 +65,34 @@
             }
         })
 
+        $('.update-graduated').click(function () {
+            if (confirm('Bạn muốn thực hiện hành động này?')){
+                $.ajax({
+                    url:  '{{asset("api/sinhvien/update_status")}}' +'/' +$(this).attr('data-id')+ '?totnghiep_status=2',
+                    type: 'post',
+                    dataType: 'json',
+                    headers: {"X-HTTP-Method-Override": "PUT"},
+                    success:function (data) {
+                        alert(data.success);
+                        window.location.reload();
+                    }
+                })
+            }
+        })
+
+        $('.update-non-graduated').click(function () {
+            if (confirm('Bạn muốn thực hiện hành động này?')){
+                $.ajax({
+                    url:  '{{asset("api/sinhvien/update_status")}}' +'/' +$(this).attr('data-id')+ '?totnghiep_status=3',
+                    type: 'post',
+                    dataType: 'json',
+                    headers: {"X-HTTP-Method-Override": "PUT"},
+                    success:function (data) {
+                        alert(data.success);
+                        window.location.reload();
+                    }
+                })
+            }
+        })
     });
 </script>
