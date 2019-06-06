@@ -45,7 +45,19 @@
                 <td>{{$sv->khoahoc->tenkhoa}}</td>
                 <td>{{$sv->chuyennganh->tencn}}</td>
                 <td>{{$sv->lophoc}}</td>
-                <td>{{$sv->totnghiep_status}}</td>
+                <td>
+                    @if ($sv->totnghiep_status === 0)
+                        Đang học tập
+                    @elseif ($sv->totnghiep_status === 1)
+                        Đề nghị xét tốt nghiệp
+                    @elseif ($sv->totnghiep_status === 2)
+                        Đã tốt nghiệp
+                    @elseif ($sv->totnghiep_status === 3)
+                        Không đủ điều kiện tốt nghiệp
+                    @else
+                        Khác
+                    @endif
+                </td>
                 <td>
                     <a class="btn btn-success view"  data-id="{{$sv->id}}">View</a>
                     <button class="btn btn-danger delete" data-id="{{$sv->id}}"><i class="fa fa-trash"></i></button></td>

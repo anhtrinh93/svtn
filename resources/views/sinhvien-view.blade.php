@@ -41,6 +41,10 @@
                             {{$cn->id == $sinhvien->cn_id ? $cn->tencn : ""}}
                         @endforeach
                     </div>
+                    <div class="form-group">
+                        <label>Bảng điểm</label>
+                        <div id="bangdiem"> data-id="{{$sinhvien->id}}></div>
+                    </div>
                     <a href="{{asset('/sinhvien')}} " class="btn btn-default">Quay lại</a>
             </div>
         </div>
@@ -51,7 +55,14 @@
 @section('script')
     <script>
         $(document).ready(function(){
-
+            $.ajax({
+                url:'{{asset("api/sinhvien/getdiem")}}',
+                type:'GET',
+                data:{id:$('#bangdiem').attr('data-id')},
+                success:function (data) {
+                    $('#bangdiem').html(data);
+                }
+            })
         });
     </script>
 @endsection

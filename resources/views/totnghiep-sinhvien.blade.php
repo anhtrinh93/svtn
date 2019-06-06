@@ -5,7 +5,7 @@
                 <small>{{$sinhvien->hoten}}</small>
             </h1>
         </div>
-        <div class="col-lg-7" style="padding-bottom:120px">
+        <div class="col-lg-7" style="padding-bottom:20px">
             <div class=" errors alert alert-danger" style="display: none" ></div>
             <div class="form-group">
                 <label>Mã Sinh viên</label>
@@ -34,21 +34,22 @@
                 @endforeach
             </div>
             <div class="form-group">
-                <label>Chọn Chuyên Ngành</label>
+                <label>Chuyên Ngành</label>
                 @foreach($chuyennganh as $cn)
                 {{$cn->id == $sinhvien->cn_id ? $cn->tencn : ""}}
                 @endforeach
             </div>
         </div>
         <div class="col-lg-12">
-            <div id="bangdiem" data-id="{{$sinhvien->id}}"">
+            <h3 class="" style="text-align:center; font-weight: bold">BẢNG ĐIỂM SINH VIÊN</h3>
+            <div id="bangdiem" data-id="{{$sinhvien->id}}">
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <button>Duyệt tốt nghiệp</button>
-            <button>Không đủ điều kiện tốt nghiệp</button>
+            <button class="btn btn-success" data-id="{{$sinhvien->id}}">Duyệt tốt nghiệp</button>
+            <button class="btn btn-danger" data-id="{{$sinhvien->id}}">Không đủ điều kiện tốt nghiệp</button>
         </div>
     </div>
     <!-- /.row -->

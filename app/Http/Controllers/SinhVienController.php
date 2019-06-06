@@ -14,6 +14,15 @@ use DB;
 
 class SinhVienController extends Controller
 {
+    /**
+     * Update the specified resource in storage.
+     * list totnghiep_status:
+     *  0: studying
+     *  1: considering_graduation
+     *  2: graduated
+     *  3: not_eligible_for_graduation
+     *  4: orther
+     */
     public function index(){
         $sinhvien=SinhVien::all();
         return view('sinhvien',compact('sinhvien'));
@@ -219,7 +228,12 @@ class SinhVienController extends Controller
 //    }
     public function getdiem(Request $request){
         $sinhvien=SinhVien::find($request->id);
-        $bangdiem = BangDiem::where("id_sv",'=',$request->id)->get();
+        $bangdiem = BangDiem::all();
+        //echo '<pre>';
+        //var_dump($bangdiem);
+        //exit();
+        //$tongtinchi=$sinhvien->bangdiem->where('pivot.diemtk','>=','5')->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('sotinchi');
+        //$diemtb=$sinhvien->bangdiem->where('mamon','<>','GDQP')->where('mamon','<>','GDTC')->sum('pivot.diemtk')/count($sinhvien->bangdiem);
         return view('sinhvien-bangdiem',compact('sinhvien', 'bangdiem'));
     }
 
